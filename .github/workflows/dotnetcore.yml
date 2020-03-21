@@ -21,3 +21,5 @@ jobs:
       run: cd ./SqlBackupJanitor && dotnet build --configuration Release
     - name: Test Project
       run: cd ./SqlBackupJanitor && dotnet test
+    - name: Publish
+      run: cd ./SqlBackupJanitor && dotnet publish --runtime win-64

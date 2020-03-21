@@ -6,17 +6,18 @@ namespace SqlBackupJanitorCore.FindBackups
   public class FindBackups
   {
 
-    public static bool CheckIfCanDelete(DateTime createdAt, uint daysAgoMax)
+    public static bool CheckIfCanDelete(DateTime lastWriteTime, uint daysAgoMax)
     {
       // input tests
       if (daysAgoMax == 0) throw new Exception("DaysAgoMax cannot be zero.");
-      if (createdAt >= DateTime.Now) throw new Exception("Created At may not be in the future.");
+      if (lastWriteTime >= DateTime.Now) throw new Exception("Created At may not be in the future.");
 
-      // if createdAt is before Now minus daysAgoMax, then delete the file
-      if (createdAt < DateTime.Now.AddDays(-1 * daysAgoMax)) return true;
+      // if lastWriteTime is before Now minus daysAgoMax, then delete the file
+      if (lastWriteTime < DateTime.Now.AddDays(-1 * daysAgoMax)) return true;
       return false;
     }
-    public void GetFiles(string path)
+
+    public void DeleteFiles(string path, uint daysAgoMax, bool safeMode = false)
     {
       DirectoryInfo dirInfo = new DirectoryInfo(path);
       try
@@ -24,7 +25,20 @@ namespace SqlBackupJanitorCore.FindBackups
         IEnumerable<FileInfo> files = dirInfo.EnumerateFiles();
         foreach (var fi in files)
         {
-          bool canDelete = CheckIfCanDelete(fi.CreationTime, 60);
+          bool canDelete = CheckIfCanDelete(fi.LastWriteTime, daysAgoMax);
+          if (canDelete)
+          {
+            if (safeMode)
+            {
+              Console.WriteLine($"Safe mode!  File {fi.Name} would have been deleted.");
+            }
+            else
+            {
+              // delete the file from file system
+              fi.Delete();
+              Console.WriteLine($"Deleted file.");
+            }
+          }
         }
       }
       catch (Exception ex)

@@ -22,6 +22,7 @@ namespace SqlBackupJanitorCore.FindBackups
       DirectoryInfo dirInfo = new DirectoryInfo(path);
       try
       {
+        Console.WriteLine($"Checking for SQL Backups in {path}\n");
         IEnumerable<FileInfo> files = dirInfo.EnumerateFiles();
         foreach (var fi in files)
         {

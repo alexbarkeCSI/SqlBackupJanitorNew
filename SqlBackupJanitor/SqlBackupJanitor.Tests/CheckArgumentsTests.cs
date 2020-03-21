@@ -6,19 +6,46 @@ namespace SqlBackupJanitor.Tests
   public class CheckArgumentsTests
   {
     [Fact]
-    public void CheckArguments_OneArgument_ReturnsTrue()
+    public void CheckArguments_Sixty_And_True_ReturnsTrue()
     {
       CheckArguments checkArguments = new CheckArguments();
-      string[] args = new string[] { "60" };
+      string[] args = new string[] { "60", "True" };
       var actual = checkArguments.ArgumentsAreCorrect(args);
       Assert.True(actual);
     }
 
     [Fact]
-    public void CheckArguments_TwoArguments_ReturnsFalse()
+    public void CheckArguments_Sixty_And_true_ReturnsFalse()
     {
       CheckArguments checkArguments = new CheckArguments();
-      string[] args = new string[] { "60", "120" };
+      string[] args = new string[] { "60", "true" };
+      var actual = checkArguments.ArgumentsAreCorrect(args);
+      Assert.False(actual);
+    }
+
+    [Fact]
+    public void CheckArguments_Sixty_And_False_ReturnsTrue()
+    {
+      CheckArguments checkArguments = new CheckArguments();
+      string[] args = new string[] { "60", "False" };
+      var actual = checkArguments.ArgumentsAreCorrect(args);
+      Assert.True(actual);
+    }
+
+    [Fact]
+    public void CheckArguments_Sixty_And_false_ReturnsFalse()
+    {
+      CheckArguments checkArguments = new CheckArguments();
+      string[] args = new string[] { "60", "false" };
+      var actual = checkArguments.ArgumentsAreCorrect(args);
+      Assert.False(actual);
+    }
+
+    [Fact]
+    public void CheckArguments_OneArgument_ReturnsFalse()
+    {
+      CheckArguments checkArguments = new CheckArguments();
+      string[] args = new string[] { "60" };
       var actual = checkArguments.ArgumentsAreCorrect(args);
       Assert.False(actual);
     }
@@ -28,7 +55,8 @@ namespace SqlBackupJanitor.Tests
     {
       CheckArguments checkArguments = new CheckArguments();
       string[] args = new string[] { "hello" };
-      Assert.Throws<FormatException>(() => checkArguments.ArgumentsAreCorrect(args));
+      var actual = checkArguments.ArgumentsAreCorrect(args);
+      Assert.False(actual);
     }
 
     [Fact]
@@ -36,7 +64,8 @@ namespace SqlBackupJanitor.Tests
     {
       CheckArguments checkArguments = new CheckArguments();
       string[] args = new string[] { "" };
-      Assert.Throws<FormatException>(() => checkArguments.ArgumentsAreCorrect(args));
+      var actual = checkArguments.ArgumentsAreCorrect(args);
+      Assert.False(actual);
     }
 
     [Fact]
@@ -44,7 +73,8 @@ namespace SqlBackupJanitor.Tests
     {
       CheckArguments checkArguments = new CheckArguments();
       string[] args = new string[] { "123abc" };
-      Assert.Throws<FormatException>(() => checkArguments.ArgumentsAreCorrect(args));
+      var actual = checkArguments.ArgumentsAreCorrect(args);
+      Assert.False(actual);
     }
 
     [Fact]
@@ -52,7 +82,8 @@ namespace SqlBackupJanitor.Tests
     {
       CheckArguments checkArguments = new CheckArguments();
       string[] args = new string[] { "abc123" };
-      Assert.Throws<FormatException>(() => checkArguments.ArgumentsAreCorrect(args));
+      var actual = checkArguments.ArgumentsAreCorrect(args);
+      Assert.False(actual);
     }
   }
 }

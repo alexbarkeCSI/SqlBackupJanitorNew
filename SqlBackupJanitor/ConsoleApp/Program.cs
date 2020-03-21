@@ -6,7 +6,8 @@ namespace ConsoleApp
 {
   class Program
   {
-    static int Main(string[] args)
+
+    static int ValidateArguments(string[] args)
     {
       CheckArguments checkArguments = new CheckArguments();
       try
@@ -16,6 +17,7 @@ namespace ConsoleApp
         {
           return 1;
         }
+        return 0;
       }
       catch (System.Exception ex)
       {
@@ -24,10 +26,16 @@ namespace ConsoleApp
         // failed to run
         return 1;
       }
+    }
+
+    static int Main(string[] args)
+    {
+      int exitCode = ValidateArguments(args);
+      if (exitCode == 1) return 1;
 
       FindBackups findBackups = new FindBackups();
-      string path = AppDomain.CurrentDomain.BaseDirectory + "Backups";
-      findBackups.DeleteFiles(path, Convert.ToUInt32(args[0]), false);
+      string path = "D:\\MarkedForDeletion\\SqlBackups";
+      findBackups.DeleteFiles(path, daysAgoMax: Convert.ToUInt32(args[0]), safeMode: Convert.ToBoolean(args[1]));
 
       // ran correctly
       return 0;

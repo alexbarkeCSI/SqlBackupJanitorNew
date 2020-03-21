@@ -15,6 +15,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\ConsoleApp\ConsoleApp.csproj" />
+    <ProjectReference Include="..\SqlBackupJanitorCore\SqlBackupJanitorCore.csproj" />
   </ItemGroup>
 
 </Project>

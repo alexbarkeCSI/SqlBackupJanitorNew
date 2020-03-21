@@ -7,6 +7,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ConsoleApp", "ConsoleApp\Co
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SqlBackupJanitor.Tests", "SqlBackupJanitor.Tests\SqlBackupJanitor.Tests.csproj", "{6039DAB6-AE46-4D76-8E50-878B439B4EDD}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SqlBackupJanitorCore", "SqlBackupJanitorCore\SqlBackupJanitorCore.csproj", "{AA98DD6F-ED9B-423F-8477-59E6210AA73F}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -44,5 +46,17 @@ Global
 		{6039DAB6-AE46-4D76-8E50-878B439B4EDD}.Release|x64.Build.0 = Release|Any CPU
 		{6039DAB6-AE46-4D76-8E50-878B439B4EDD}.Release|x86.ActiveCfg = Release|Any CPU
 		{6039DAB6-AE46-4D76-8E50-878B439B4EDD}.Release|x86.Build.0 = Release|Any CPU
+		{AA98DD6F-ED9B-423F-8477-59E6210AA73F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{AA98DD6F-ED9B-423F-8477-59E6210AA73F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{AA98DD6F-ED9B-423F-8477-59E6210AA73F}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{AA98DD6F-ED9B-423F-8477-59E6210AA73F}.Debug|x64.Build.0 = Debug|Any CPU
+		{AA98DD6F-ED9B-423F-8477-59E6210AA73F}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{AA98DD6F-ED9B-423F-8477-59E6210AA73F}.Debug|x86.Build.0 = Debug|Any CPU
+		{AA98DD6F-ED9B-423F-8477-59E6210AA73F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{AA98DD6F-ED9B-423F-8477-59E6210AA73F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{AA98DD6F-ED9B-423F-8477-59E6210AA73F}.Release|x64.ActiveCfg = Release|Any CPU
+		{AA98DD6F-ED9B-423F-8477-59E6210AA73F}.Release|x64.Build.0 = Release|Any CPU
+		{AA98DD6F-ED9B-423F-8477-59E6210AA73F}.Release|x86.ActiveCfg = Release|Any CPU
+		{AA98DD6F-ED9B-423F-8477-59E6210AA73F}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal

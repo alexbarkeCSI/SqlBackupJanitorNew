@@ -34,8 +34,18 @@ namespace ConsoleApp
       if (exitCode == 1) return 1;
 
       FindBackups findBackups = new FindBackups();
-      string path = "D:\\MarkedForDeletion\\SqlBackups";
-      findBackups.DeleteFiles(path, daysAgoMax: Convert.ToUInt32(args[0]), safeMode: Convert.ToBoolean(args[1]));
+      string path = "D:\\SqlBackupJanitor\\Backups";
+      try
+      {
+        findBackups.DeleteFiles(path, daysAgoMax: Convert.ToUInt32(args[0]), safeMode: Convert.ToBoolean(args[1]));
+      }
+      catch (System.Exception ex)
+      {
+        Console.WriteLine($"Error: {ex.Message}");
+        Console.WriteLine($"StackTrace: {ex.StackTrace}");
+        // failed to run
+        return 1;
+      }
 
       // ran correctly
       return 0;

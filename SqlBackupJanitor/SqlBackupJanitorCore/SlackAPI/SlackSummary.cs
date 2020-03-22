@@ -8,10 +8,23 @@ namespace SqlBackupJanitorCore.SlackAPI
   {
     string CreateSummaryForSafeMode(string environment, DateTime startedAt, List<string> backupsFound);
     string CreateSummaryForUnsafeMode(string environment, DateTime startedAt, List<string> backupsDeleted);
+    string CreateFailureSummary(string environment, DateTime startedAt, string message, string stackTrace);
   }
 
   public class SlackSummary : ISlackSummary
   {
+    public string CreateFailureSummary(string environment, DateTime startedAt, string message, string stackTrace)
+    {
+      StringBuilder sb = new StringBuilder();
+      sb.AppendLine($"ENV: [{environment}]");
+      sb.AppendLine("SafeMode: [TRUE]");
+      sb.AppendLine($"Started On: {startedAt.ToString("dddd MMMM dd, yyyy hh:mm:ss")} UTC");
+      sb.AppendLine($"FAILURE");
+      sb.AppendLine($"[Message]: {message}");
+      sb.AppendLine($"[Stacktrace]: {stackTrace}");
+      return sb.ToString();
+    }
+
     public string CreateSummaryForSafeMode(string environment, DateTime startedAt, List<string> backupsFound)
     {
       StringBuilder sb = new StringBuilder();

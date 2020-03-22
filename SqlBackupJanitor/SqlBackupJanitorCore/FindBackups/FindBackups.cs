@@ -20,7 +20,7 @@ namespace SqlBackupJanitorCore.FindBackups
       return false;
     }
 
-    public async Task DeleteFiles(string path, uint daysAgoMax, bool safeMode = false)
+    public async Task DeleteFiles(string path, uint daysAgoMax, bool safeMode, string environment)
     {
       DirectoryInfo dirInfo = new DirectoryInfo(path);
       List<string> backups = new List<string>();
@@ -46,28 +46,37 @@ namespace SqlBackupJanitorCore.FindBackups
             }
           }
         }
-        await SendSummary(safeMode, backups);
+        await SendSummary(safeMode, backups, environment);
         return;
       }
       catch (Exception ex)
       {
         Console.WriteLine($"Message: {ex.Message}");
         Console.WriteLine($"Stacktrace: {ex.StackTrace}");
+        await SendFailureSummary(safeMode, environment, ex);
         return;
       }
     }
 
-    private async Task SendSummary(bool safeMode, List<string> backups)
+    private async Task SendFailureSummary(bool safeMode, string environment, Exception ex)
+    {
+      SlackSummary slackSummary = new SlackSummary();
+      string summary = slackSummary.CreateFailureSummary(environment, DateTime.UtcNow, ex.Message, ex.StackTrace);
+      MySlackClient slackClient = new MySlackClient(new SlackConfigProvider());
+      await slackClient.Send(summary);
+    }
+
+    private async Task SendSummary(bool safeMode, List<string> backups, string environment)
     {
       SlackSummary slackSummary = new SlackSummary();
       string summary;
       if (safeMode)
       {
-        summary = slackSummary.CreateSummaryForSafeMode("DEV", DateTime.UtcNow, backups);
+        summary = slackSummary.CreateSummaryForSafeMode(environment, DateTime.UtcNow, backups);
       }
       else
       {
-        summary = slackSummary.CreateSummaryForUnsafeMode("DEV", DateTime.UtcNow, backups);
+        summary = slackSummary.CreateSummaryForUnsafeMode(environment, DateTime.UtcNow, backups);
       }
       MySlackClient slackClient = new MySlackClient(new SlackConfigProvider());
       await slackClient.Send(summary);

@@ -14,6 +14,7 @@ namespace SqlBackupJanitorCore.Configuration
       if (appConfig.BackupDirectory == null || appConfig.BackupDirectory == "") return false;
       if (string.IsNullOrEmpty(appConfig.AccessCode)) return false;
       if (string.IsNullOrEmpty(appConfig.SlackChannel)) return false;
+      if (string.IsNullOrEmpty(appConfig.Environment)) return false;
       return true;
     }
   }

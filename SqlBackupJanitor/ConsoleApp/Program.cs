@@ -8,17 +8,14 @@ namespace ConsoleApp
 {
   class Program
   {
-    static async Task TestSlack()
-    {
-      MySlackClient sendMessage = new MySlackClient(new SlackConfigProvider());
-      await sendMessage.Send("hello world");
-    }
     static async Task<int> Main(string[] args)
     {
       ValidateAppConfig validateAppConfig = new ValidateAppConfig(new GetAppConfig());
       bool isValid = validateAppConfig.Validate();
       if (!isValid)
       {
+        MySlackClient slackClient = new MySlackClient(new SlackConfigProvider());
+        await slackClient.Send("You're missing your parameters in config.json");
         return 1;
       }
 

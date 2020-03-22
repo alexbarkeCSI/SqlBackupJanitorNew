@@ -1,7 +1,7 @@
 ﻿using System;
-using System.IO;
 using SqlBackupJanitorCore.FindBackups;
 using SqlBackupJanitorCore.Arguments;
+using SqlBackupJanitorCore.Configuration;
 namespace ConsoleApp
 {
   class Program
@@ -30,22 +30,24 @@ namespace ConsoleApp
 
     static int Main(string[] args)
     {
-      int exitCode = ValidateArguments(args);
-      if (exitCode == 1) return 1;
+      // BackupLocation backupLocation = new BackupLocation();
+      // backupLocation.GetBackupDir();
+      // int exitCode = ValidateArguments(args);
+      // if (exitCode == 1) return 1;
 
-      FindBackups findBackups = new FindBackups();
-      string path = "D:\\SqlBackupJanitor\\Backups";
-      try
-      {
-        findBackups.DeleteFiles(path, daysAgoMax: Convert.ToUInt32(args[0]), safeMode: Convert.ToBoolean(args[1]));
-      }
-      catch (System.Exception ex)
-      {
-        Console.WriteLine($"Error: {ex.Message}");
-        Console.WriteLine($"StackTrace: {ex.StackTrace}");
-        // failed to run
-        return 1;
-      }
+      // FindBackups findBackups = new FindBackups();
+      // string path = "D:\\SqlBackupJanitor\\Backups";
+      // try
+      // {
+      //   findBackups.DeleteFiles(path, daysAgoMax: Convert.ToUInt32(args[0]), safeMode: Convert.ToBoolean(args[1]));
+      // }
+      // catch (System.Exception ex)
+      // {
+      //   Console.WriteLine($"Error: {ex.Message}");
+      //   Console.WriteLine($"StackTrace: {ex.StackTrace}");
+      //   // failed to run
+      //   return 1;
+      // }
 
       // ran correctly
       return 0;

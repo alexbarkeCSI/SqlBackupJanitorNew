@@ -6,18 +6,21 @@ namespace ConsoleApp
 {
   class Program
   {
-
-    static int ValidateArguments(string[] args)
+    static int Main(string[] args)
     {
-      CheckArguments checkArguments = new CheckArguments();
+      ValidateAppConfig validateAppConfig = new ValidateAppConfig(new GetAppConfig());
+      bool isValid = validateAppConfig.Validate();
+      if (!isValid)
+      {
+        return 1;
+      }
+
+      AppConfig appConfig = new GetAppConfig().FindAppConfig();
+
       try
       {
-        bool argsAreCorrect = checkArguments.ArgumentsAreCorrect(args);
-        if (!argsAreCorrect)
-        {
-          return 1;
-        }
-        return 0;
+        FindBackups findBackups = new FindBackups();
+        findBackups.DeleteFiles(appConfig.BackupDirectory, daysAgoMax: appConfig.MaxDaysAgo, safeMode: appConfig.SafeMode);
       }
       catch (System.Exception ex)
       {
@@ -26,28 +29,6 @@ namespace ConsoleApp
         // failed to run
         return 1;
       }
-    }
-
-    static int Main(string[] args)
-    {
-      // BackupLocation backupLocation = new BackupLocation();
-      // backupLocation.GetBackupDir();
-      // int exitCode = ValidateArguments(args);
-      // if (exitCode == 1) return 1;
-
-      // FindBackups findBackups = new FindBackups();
-      // string path = "D:\\SqlBackupJanitor\\Backups";
-      // try
-      // {
-      //   findBackups.DeleteFiles(path, daysAgoMax: Convert.ToUInt32(args[0]), safeMode: Convert.ToBoolean(args[1]));
-      // }
-      // catch (System.Exception ex)
-      // {
-      //   Console.WriteLine($"Error: {ex.Message}");
-      //   Console.WriteLine($"StackTrace: {ex.StackTrace}");
-      //   // failed to run
-      //   return 1;
-      // }
 
       // ran correctly
       return 0;

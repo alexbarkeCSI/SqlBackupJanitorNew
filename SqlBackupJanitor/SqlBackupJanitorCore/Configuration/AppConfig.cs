@@ -12,5 +12,10 @@ namespace SqlBackupJanitorCore.Configuration
       SafeMode = safeMode;
       BackupDirectory = backupDirectory;
     }
+
+    public AppConfig()
+    {
+
+    }
   }
 }

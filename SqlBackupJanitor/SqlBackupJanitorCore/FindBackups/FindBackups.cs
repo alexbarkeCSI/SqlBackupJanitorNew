@@ -1,6 +1,9 @@
 using System;
 using System.IO;
 using System.Collections.Generic;
+using SqlBackupJanitorCore.SlackAPI;
+using System.Threading.Tasks;
+
 namespace SqlBackupJanitorCore.FindBackups
 {
   public class FindBackups
@@ -17,9 +20,10 @@ namespace SqlBackupJanitorCore.FindBackups
       return false;
     }
 
-    public void DeleteFiles(string path, uint daysAgoMax, bool safeMode = false)
+    public async Task DeleteFiles(string path, uint daysAgoMax, bool safeMode = false)
     {
       DirectoryInfo dirInfo = new DirectoryInfo(path);
+      List<string> backups = new List<string>();
       try
       {
         Console.WriteLine($"Checking for SQL Backups in {path}\n");
@@ -29,6 +33,7 @@ namespace SqlBackupJanitorCore.FindBackups
           bool canDelete = CheckIfCanDelete(fi.LastWriteTime, daysAgoMax);
           if (canDelete)
           {
+            backups.Add(fi.Name);
             if (safeMode)
             {
               Console.WriteLine($"Safe mode!  File {fi.Name} would have been deleted.");
@@ -41,12 +46,31 @@ namespace SqlBackupJanitorCore.FindBackups
             }
           }
         }
+        await SendSummary(safeMode, backups);
+        return;
       }
       catch (Exception ex)
       {
         Console.WriteLine($"Message: {ex.Message}");
         Console.WriteLine($"Stacktrace: {ex.StackTrace}");
+        return;
       }
+    }
+
+    private async Task SendSummary(bool safeMode, List<string> backups)
+    {
+      SlackSummary slackSummary = new SlackSummary();
+      string summary;
+      if (safeMode)
+      {
+        summary = slackSummary.CreateSummaryForSafeMode("DEV", DateTime.UtcNow, backups);
+      }
+      else
+      {
+        summary = slackSummary.CreateSummaryForUnsafeMode("DEV", DateTime.UtcNow, backups);
+      }
+      MySlackClient slackClient = new MySlackClient(new SlackConfigProvider());
+      await slackClient.Send(summary);
     }
   }
 }

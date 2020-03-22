@@ -27,7 +27,7 @@ namespace ConsoleApp
       try
       {
         FindBackups findBackups = new FindBackups();
-        findBackups.DeleteFiles(appConfig.BackupDirectory, daysAgoMax: appConfig.MaxDaysAgo, safeMode: appConfig.SafeMode);
+        await findBackups.DeleteFiles(appConfig.BackupDirectory, daysAgoMax: appConfig.MaxDaysAgo, safeMode: appConfig.SafeMode);
       }
       catch (System.Exception ex)
       {

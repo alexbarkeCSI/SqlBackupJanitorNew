@@ -71,9 +71,8 @@ namespace SqlBackupJanitorCore.FindBackups
       string summary = slackSummary.CreateFailureSummary(environment, DateTime.UtcNow, ex.Message, ex.StackTrace);
       if (shouldLogToSlack)
       {
-
-        MySlackClient slackClient = new MySlackClient(new SlackConfigProvider());
-        await slackClient.Send(summary);
+        MySlackWebClient slackWebClient = new MySlackWebClient(new Configuration.GetAppConfig());
+        await slackWebClient.Send(summary);
       }
       else
       {
@@ -96,9 +95,8 @@ namespace SqlBackupJanitorCore.FindBackups
       }
       if (shouldLogToSlack)
       {
-
-        MySlackClient slackClient = new MySlackClient(new SlackConfigProvider());
-        await slackClient.Send(summary);
+        MySlackWebClient slackWebClient = new MySlackWebClient(new Configuration.GetAppConfig());
+        await slackWebClient.Send(summary);
       }
       else
       {

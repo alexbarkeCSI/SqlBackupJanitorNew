@@ -4,7 +4,8 @@ using SlackAPI;
 
 namespace SqlBackupJanitorCore.SlackAPI
 {
-  public class MySlackClient
+
+  public sealed class MySlackClient : IMySlackClient
   {
     private readonly ISlackConfigProvider _provider;
     public MySlackClient(ISlackConfigProvider provider)

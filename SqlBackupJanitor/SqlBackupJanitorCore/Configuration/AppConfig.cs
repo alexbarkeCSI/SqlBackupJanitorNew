@@ -6,6 +6,7 @@ namespace SqlBackupJanitorCore.Configuration
     public bool SafeMode { get; set; }
     public string BackupDirectory { get; set; }
     public string AccessCode { get; set; }
+    public string WebhookCode { get; set; }
     public string SlackChannel { get; set; }
     public string Environment { get; set; }
     public bool ShouldLogToSlack { get; set; }
@@ -16,6 +17,7 @@ namespace SqlBackupJanitorCore.Configuration
       bool safeMode,
       string backupDirectory,
       string accessCode,
+      string webhookCode,
       string slackChannel,
       string environment,
       bool shouldLogToSlack,
@@ -25,6 +27,7 @@ namespace SqlBackupJanitorCore.Configuration
       SafeMode = safeMode;
       BackupDirectory = backupDirectory;
       AccessCode = accessCode;
+      WebhookCode = webhookCode;
       SlackChannel = slackChannel;
       Environment = environment;
       ShouldLogToSlack = shouldLogToSlack;

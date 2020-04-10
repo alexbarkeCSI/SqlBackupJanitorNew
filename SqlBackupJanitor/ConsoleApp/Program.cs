@@ -24,7 +24,12 @@ namespace ConsoleApp
       try
       {
         FindBackups findBackups = new FindBackups();
-        await findBackups.DeleteFiles(appConfig.BackupDirectory, daysAgoMax: appConfig.MaxDaysAgo, safeMode: appConfig.SafeMode, appConfig.Environment);
+        await findBackups.DeleteFiles(
+          path: appConfig.BackupDirectory,
+          daysAgoMax: appConfig.MaxDaysAgo,
+          safeMode: appConfig.SafeMode,
+          environment: appConfig.Environment,
+          shouldLogToSlack: appConfig.ShouldLogToSlack);
       }
       catch (System.Exception ex)
       {

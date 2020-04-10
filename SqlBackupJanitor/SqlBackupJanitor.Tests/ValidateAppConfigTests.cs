@@ -11,7 +11,7 @@ namespace SqlBackupJanitor.Tests
     {
       using (AutoMock mock = AutoMock.GetLoose())
       {
-        mock.Mock<IGetAppConfig>().Setup(s => s.FindAppConfig()).Returns(new AppConfig(60, true, "D:\\Backups", "123abc", "#general", "DEV"));
+        mock.Mock<IGetAppConfig>().Setup(s => s.FindAppConfig()).Returns(new AppConfig(60, true, "D:\\Backups", "123abc", "#general", "DEV", true));
 
         ValidateAppConfig sut = mock.Create<ValidateAppConfig>();
 
@@ -27,7 +27,7 @@ namespace SqlBackupJanitor.Tests
     {
       using (AutoMock mock = AutoMock.GetLoose())
       {
-        mock.Mock<IGetAppConfig>().Setup(s => s.FindAppConfig()).Returns(new AppConfig(60, true, backupDir, "123abc", "#general", "DEV"));
+        mock.Mock<IGetAppConfig>().Setup(s => s.FindAppConfig()).Returns(new AppConfig(60, true, backupDir, "123abc", "#general", "DEV", true));
 
         ValidateAppConfig sut = mock.Create<ValidateAppConfig>();
 
@@ -41,7 +41,7 @@ namespace SqlBackupJanitor.Tests
     {
       using (AutoMock mock = AutoMock.GetLoose())
       {
-        mock.Mock<IGetAppConfig>().Setup(s => s.FindAppConfig()).Returns(new AppConfig(0, true, "D:\\Backups", "123abc", "#general", "DEV"));
+        mock.Mock<IGetAppConfig>().Setup(s => s.FindAppConfig()).Returns(new AppConfig(0, true, "D:\\Backups", "123abc", "#general", "DEV", true));
 
         ValidateAppConfig sut = mock.Create<ValidateAppConfig>();
 
@@ -57,7 +57,7 @@ namespace SqlBackupJanitor.Tests
     {
       using (AutoMock mock = AutoMock.GetLoose())
       {
-        mock.Mock<IGetAppConfig>().Setup(s => s.FindAppConfig()).Returns(new AppConfig(60, true, "D:\\Backups", accessCode, "#general", "DEV"));
+        mock.Mock<IGetAppConfig>().Setup(s => s.FindAppConfig()).Returns(new AppConfig(60, true, "D:\\Backups", accessCode, "#general", "DEV", true));
 
         ValidateAppConfig sut = mock.Create<ValidateAppConfig>();
 
@@ -73,7 +73,7 @@ namespace SqlBackupJanitor.Tests
     {
       using (AutoMock mock = AutoMock.GetLoose())
       {
-        mock.Mock<IGetAppConfig>().Setup(s => s.FindAppConfig()).Returns(new AppConfig(60, true, "D:\\Backups", "123abc", channelName, "DEV"));
+        mock.Mock<IGetAppConfig>().Setup(s => s.FindAppConfig()).Returns(new AppConfig(60, true, "D:\\Backups", "123abc", channelName, "DEV", true));
 
         ValidateAppConfig sut = mock.Create<ValidateAppConfig>();
 
@@ -89,7 +89,7 @@ namespace SqlBackupJanitor.Tests
     {
       using (AutoMock mock = AutoMock.GetLoose())
       {
-        mock.Mock<IGetAppConfig>().Setup(s => s.FindAppConfig()).Returns(new AppConfig(60, true, "D:\\Backups", "123abc", "#general", environment));
+        mock.Mock<IGetAppConfig>().Setup(s => s.FindAppConfig()).Returns(new AppConfig(60, true, "D:\\Backups", "123abc", "#general", environment, true));
 
         ValidateAppConfig sut = mock.Create<ValidateAppConfig>();
 
@@ -97,6 +97,5 @@ namespace SqlBackupJanitor.Tests
         Assert.False(isValid);
       }
     }
-
   }
 }

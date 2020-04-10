@@ -20,7 +20,7 @@ namespace SqlBackupJanitorCore.FindBackups
       return false;
     }
 
-    public async Task DeleteFiles(string path, uint daysAgoMax, bool safeMode, string environment)
+    public async Task DeleteFiles(string path, uint daysAgoMax, bool safeMode, string environment, bool shouldLogToSlack)
     {
       DirectoryInfo dirInfo = new DirectoryInfo(path);
       List<string> backups = new List<string>();
@@ -46,14 +46,20 @@ namespace SqlBackupJanitorCore.FindBackups
             }
           }
         }
-        await SendSummary(safeMode, backups, environment);
+        if (shouldLogToSlack)
+        {
+          await SendSummary(safeMode, backups, environment);
+        }
         return;
       }
       catch (Exception ex)
       {
         Console.WriteLine($"Message: {ex.Message}");
         Console.WriteLine($"Stacktrace: {ex.StackTrace}");
-        await SendFailureSummary(safeMode, environment, ex);
+        if (shouldLogToSlack)
+        {
+          await SendFailureSummary(safeMode, environment, ex);
+        }
         return;
       }
     }

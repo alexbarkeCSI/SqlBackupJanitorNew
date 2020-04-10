@@ -3,6 +3,7 @@ using System.IO;
 using System.Collections.Generic;
 using SqlBackupJanitorCore.SlackAPI;
 using System.Threading.Tasks;
+using SqlBackupJanitorCore.LogToFile;
 
 namespace SqlBackupJanitorCore.FindBackups
 {
@@ -20,7 +21,13 @@ namespace SqlBackupJanitorCore.FindBackups
       return false;
     }
 
-    public async Task DeleteFiles(string path, uint daysAgoMax, bool safeMode, string environment, bool shouldLogToSlack)
+    public async Task DeleteFiles(
+      string path,
+      uint daysAgoMax,
+      bool safeMode,
+      string environment,
+      bool shouldLogToSlack,
+      string fileSystemLoggingDirectory)
     {
       DirectoryInfo dirInfo = new DirectoryInfo(path);
       List<string> backups = new List<string>();
@@ -46,33 +53,36 @@ namespace SqlBackupJanitorCore.FindBackups
             }
           }
         }
-        if (shouldLogToSlack)
-        {
-          await SendSummary(safeMode, backups, environment);
-        }
+        await SendSummary(safeMode, backups, environment, shouldLogToSlack, fileSystemLoggingDirectory);
         return;
       }
       catch (Exception ex)
       {
         Console.WriteLine($"Message: {ex.Message}");
         Console.WriteLine($"Stacktrace: {ex.StackTrace}");
-        if (shouldLogToSlack)
-        {
-          await SendFailureSummary(safeMode, environment, ex);
-        }
+        await SendFailureSummary(safeMode, environment, ex, shouldLogToSlack, fileSystemLoggingDirectory);
         return;
       }
     }
 
-    private async Task SendFailureSummary(bool safeMode, string environment, Exception ex)
+    private async Task SendFailureSummary(bool safeMode, string environment, Exception ex, bool shouldLogToSlack, string fileSystemLoggingDirectory)
     {
       SlackSummary slackSummary = new SlackSummary();
       string summary = slackSummary.CreateFailureSummary(environment, DateTime.UtcNow, ex.Message, ex.StackTrace);
-      MySlackClient slackClient = new MySlackClient(new SlackConfigProvider());
-      await slackClient.Send(summary);
+      if (shouldLogToSlack)
+      {
+
+        MySlackClient slackClient = new MySlackClient(new SlackConfigProvider());
+        await slackClient.Send(summary);
+      }
+      else
+      {
+        FileSystemLogger logger = new FileSystemLogger(new FileSystemConfigProvider(new Configuration.GetAppConfig()));
+        logger.WriteSummaryToFileSystem(summary);
+      }
     }
 
-    private async Task SendSummary(bool safeMode, List<string> backups, string environment)
+    private async Task SendSummary(bool safeMode, List<string> backups, string environment, bool shouldLogToSlack, string fileSystemLoggingDirectory)
     {
       SlackSummary slackSummary = new SlackSummary();
       string summary;
@@ -84,8 +94,17 @@ namespace SqlBackupJanitorCore.FindBackups
       {
         summary = slackSummary.CreateSummaryForUnsafeMode(environment, DateTime.UtcNow, backups);
       }
-      MySlackClient slackClient = new MySlackClient(new SlackConfigProvider());
-      await slackClient.Send(summary);
+      if (shouldLogToSlack)
+      {
+
+        MySlackClient slackClient = new MySlackClient(new SlackConfigProvider());
+        await slackClient.Send(summary);
+      }
+      else
+      {
+        FileSystemLogger logger = new FileSystemLogger(new FileSystemConfigProvider(new Configuration.GetAppConfig()));
+        logger.WriteSummaryToFileSystem(summary);
+      }
     }
   }
 }

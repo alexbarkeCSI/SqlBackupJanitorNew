@@ -29,7 +29,8 @@ namespace ConsoleApp
           daysAgoMax: appConfig.MaxDaysAgo,
           safeMode: appConfig.SafeMode,
           environment: appConfig.Environment,
-          shouldLogToSlack: appConfig.ShouldLogToSlack);
+          shouldLogToSlack: appConfig.ShouldLogToSlack,
+          fileSystemLoggingDirectory: appConfig.FileSystemLoggingDirectory);
       }
       catch (System.Exception ex)
       {

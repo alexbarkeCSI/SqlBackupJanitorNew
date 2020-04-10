@@ -9,6 +9,7 @@ namespace SqlBackupJanitorCore.Configuration
     public string SlackChannel { get; set; }
     public string Environment { get; set; }
     public bool ShouldLogToSlack { get; set; }
+    public string FileSystemLoggingDirectory { get; set; }
 
     public AppConfig(
       uint maxDaysAgo,
@@ -17,7 +18,8 @@ namespace SqlBackupJanitorCore.Configuration
       string accessCode,
       string slackChannel,
       string environment,
-      bool shouldLogToSlack)
+      bool shouldLogToSlack,
+      string fileSystemLoggingDirectory)
     {
       MaxDaysAgo = maxDaysAgo;
       SafeMode = safeMode;
@@ -26,6 +28,7 @@ namespace SqlBackupJanitorCore.Configuration
       SlackChannel = slackChannel;
       Environment = environment;
       ShouldLogToSlack = shouldLogToSlack;
+      FileSystemLoggingDirectory = fileSystemLoggingDirectory;
     }
 
     public AppConfig()
